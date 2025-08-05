@@ -22,3 +22,8 @@ down:
 .PHONY: clean
 clean:
 	docker compose -f $(COMPOSE_FILE) down --rmi all --volumes
+
+.PHONY: fclean
+fclean: clean
+	sudo rm -rf /home/torato/data/db/*
+	sudo rm -rf /home/torato/data/wp/*

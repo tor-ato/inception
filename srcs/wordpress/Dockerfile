@@ -1,4 +1,4 @@
-FROM alpine:3.18.5
+FROM alpine:3.21.4
 
 # Install packages
 RUN apk update && apk upgrade && \
