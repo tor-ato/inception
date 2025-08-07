@@ -25,5 +25,9 @@ clean:
 
 .PHONY: fclean
 fclean: clean
-	sudo rm -rf /home/torato/data/db/*
-	sudo rm -rf /home/torato/data/wp/*
+	sudo rm -rf /home/tkitahar/data/db/*
+	sudo rm -rf /home/tkitahar/data/wp/*
+
+.PHONY: ps
+ps:
+	docker compose -f $(COMPOSE_FILE) ps

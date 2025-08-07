@@ -7,7 +7,7 @@ RUN apk update && apk upgrade && apk add nginx openssl
 COPY ./entrypoint.sh /usr/local/bin/
 
 # Expose ports
-EXPOSE 80 443
+EXPOSE 443
 
 # Run entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
