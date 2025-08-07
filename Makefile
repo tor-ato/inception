@@ -1,4 +1,4 @@
-COMPOSE_FILE := srcs/compose.yml
+COMPOSE_FILE := srcs/docker-compose.yml
 
 .PHONY: all
 all: start

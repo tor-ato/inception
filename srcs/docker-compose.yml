@@ -3,7 +3,7 @@ services:
   nginx:
     container_name: nginx
     build: ./nginx
-    image: nginx
+    image: nginx:ft
     restart: always
     depends_on:
       - wordpress
@@ -18,7 +18,7 @@ services:
   wordpress:
     container_name: wordpress
     build: ./wordpress
-    image: wordpress
+    image: wordpress:ft
     restart: always
     depends_on:
       mariadb:
@@ -47,21 +47,23 @@ services:
   mariadb:
     container_name: mariadb
     build: ./mariadb
-    image: mariadb
+    image: mariadb:ft
     restart: always
     networks:
       - backend
     volumes:
       - db-data:/var/lib/mysql
       - ./mariadb/conf/my.cnf.d/mariadb-server.cnf:/etc/my.cnf.d/mariadb-server.cnf:ro
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
     environment:
-      - DB_USER
-      - DB_PASSWORD
-      - DB_DATABASE
+      - MARIADB_USER
+      - MARIADB_PASSWORD
+      - MARIADB_DATABASE
+      - MARIADB_ROOT_PASSWORD
+    healthcheck:
+       test: ["CMD", "mysqladmin", "ping", "--socket=/run/mysqld/mysqld.sock"]
+       interval: 10s
+       timeout: 5s
+       retries: 5
 
 networks:
   web:

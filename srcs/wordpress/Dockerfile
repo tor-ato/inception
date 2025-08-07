@@ -23,6 +23,15 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 # Setup directories
 ENV WP_DIR=/var/www/html
+
+# 代わりにWordPressを手動でダウンロードして展開
+RUN mkdir -p /usr/src/wordpress && \
+    curl -o /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
+    tar -xzf /tmp/wordpress.tar.gz -C /usr/src/ && \
+    rm /tmp/wordpress.tar.gz && \
+    chown -R www-data:www-data /usr/src/wordpress
+
+# ボリュームマウント用のディレクトリを準備
 RUN mkdir -p $WP_DIR && \
     chown -R www-data:www-data $WP_DIR && \
     chmod 755 $WP_DIR
@@ -30,13 +39,9 @@ RUN mkdir -p $WP_DIR && \
 # Set working directory
 WORKDIR $WP_DIR
 
-# Download wordpress
-# memory limit に引っかかって失敗するので、このコマンドだけ上限を上げる
-RUN su-exec www-data \
-    php -d memory_limit=512M /usr/local/bin/wp core download --path=$WP_DIR
-
 # Copy entrypoint.sh
 COPY ./entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Volume
 VOLUME $WP_DIR

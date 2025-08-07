@@ -27,7 +27,6 @@ kill_temp_mariadb() {
 	fi
 }
 
-# TODO: Provide appropriate privileges
 create_user() {
 	if [ $# -ne 2 ] || [ -z "$1" ] || [ -z "$2" ]; then
 		echo "Failed to create user: invalid arguments"
@@ -67,11 +66,11 @@ create_database() {
 main() {
 	init_db
 	run_temp_mariadb
-	if [ -n "$DB_DATABASE" ]; then
-		create_database "$DB_DATABASE"
+	if [ -n "$MARIADB_DATABASE" ]; then
+		create_database "$MARIADB_DATABASE"
 	fi
-	if [ -n "$DB_USER" ] && [ -n "$DB_PASSWORD" ]; then
-		create_user "$DB_USER" "$DB_PASSWORD"
+	if [ -n "$MARIADB_USER" ] && [ -n "$MARIADB_PASSWORD" ]; then
+		create_user "$MARIADB_USER" "$MARIADB_PASSWORD"
 	fi
 	kill_temp_mariadb
 

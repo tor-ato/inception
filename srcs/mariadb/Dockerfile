@@ -2,7 +2,7 @@ FROM alpine:3.21.4
 
 # Install mariadb
 RUN apk update && apk upgrade && \
-    apk add --no-cache mariadb mariadb-client
+    apk add --no-cache mariadb mariadb-client bash
 
 # Setup directories
 RUN mkdir -p /var/lib/mysql /run/mysqld && \
