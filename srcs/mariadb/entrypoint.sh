@@ -37,14 +37,17 @@ create_user() {
 		mariadb -u root <<-EOSQL
 			CREATE USER '$1'@'%' IDENTIFIED BY '$2';
 			CREATE USER '$1'@'localhost' IDENTIFIED BY '$2';
-			GRANT ALL PRIVILEGES ON *.* TO '$1'@'%' WITH GRANT OPTION;
-			GRANT ALL PRIVILEGES ON *.* TO '$1'@'localhost' WITH GRANT OPTION;
-			FLUSH PRIVILEGES;
 		EOSQL
-		echo "User '$1' created successfully"
 	else
-		echo "User '$1' already exists"
+		echo "User '$1' already exists, updating privileges..."
 	fi
+
+	# ユーザーが既存でも必ず権限を付与
+	mariadb -u root <<-EOSQL
+		GRANT ALL PRIVILEGES ON *.* TO '$1'@'%' WITH GRANT OPTION;
+		GRANT ALL PRIVILEGES ON *.* TO '$1'@'localhost' WITH GRANT OPTION;
+		FLUSH PRIVILEGES;
+	EOSQL
 }
 
 create_database() {
@@ -79,3 +82,4 @@ main() {
 }
 
 main
+
