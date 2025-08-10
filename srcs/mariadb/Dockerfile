@@ -7,7 +7,7 @@ RUN apk update && apk upgrade && \
 # Setup directories
 RUN mkdir -p /var/lib/mysql /run/mysqld && \
     chown -R mysql:mysql /var/lib/mysql /run/mysqld && \
-    chmod 1777 /run/mysqld
+    chmod 777 /run/mysqld
 
 # Copy entrypoint
 COPY entrypoint.sh /usr/local/bin/
