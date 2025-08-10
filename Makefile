@@ -31,3 +31,6 @@ fclean: clean
 .PHONY: ps
 ps:
 	docker compose -f $(COMPOSE_FILE) ps
+
+.PHONY: re
+re: fclean all

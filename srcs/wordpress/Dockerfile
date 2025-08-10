@@ -3,10 +3,16 @@ FROM alpine:3.21.4
 # Install packages
 RUN apk update && apk upgrade && \
     apk add --no-cache \
-    curl fcgi su-exec \
-    php82 php82-fpm php82-mysqli php82-json php82-openssl php82-curl \
-    php82-zlib php82-xml php82-phar php82-intl php82-dom php82-xmlreader \
-    php82-ctype php82-mbstring php82-gd php82-session
+    curl su-exec \
+    php82 \
+    php82-fpm \
+    php82-mysqli php82-json php82-openssl php82-curl \
+    php82-phar php82-mbstring php82-session
+
+    #php82 PHP 本体
+    #php82-fpm Nginx と通信するデーモンFastCGI Process Manager
+    #php82-phar アーカイブ回答実行用。ないとwpコマンドが動かない
+    #php82-mbstring 日本語対応
 
 # Create symlink
 RUN ln -s /usr/bin/php82 /usr/bin/php
@@ -24,7 +30,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # Setup directories
 ENV WP_DIR=/var/www/html
 
-# 代わりにWordPressを手動でダウンロードして展開
+# WordPressを手動でダウンロードして展開
 RUN mkdir -p /usr/src/wordpress && \
     curl -o /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
     tar -xzf /tmp/wordpress.tar.gz -C /usr/src/ && \
