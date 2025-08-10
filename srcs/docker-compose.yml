@@ -27,7 +27,6 @@ services:
       - backend
     volumes:
       - wp-data:/var/www/html
-      - ./wordpress/conf/conf.d/opcache-recommended.ini:/etc/php82/conf.d/opcache-recommended.ini:ro
       - ./wordpress/conf/php-fpm.d/www.conf:/etc/php82/php-fpm.d/www.conf:ro
     healthcheck:
       test: SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000 | grep -q pong
